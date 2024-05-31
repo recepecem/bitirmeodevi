@@ -1,0 +1,57 @@
+Her bir telefona ait benzersiz bir ID vardır. Bu ID ile cihazınız baz istasyonları tarafından tanınır. Adı IMEI’ dir. 
+
+ 
+
+1) Aynı şekilde SIM kartlarınıza da ait bir benzersiz ID vardır. Bu ID sayesinde GSM operatorleri kendi mülkiyetlerinde olan SIM kartlarının hangi cihaza takıldığını keşfedebilir. Numaranın adı IMSI’ dir. 
+
+IMEI ve IMSI numaralarımız eşler halinde EIR adında bir database’ de tutulur ve böylece hangi cihazda hangi SIM kartının olduğu bilgisi BTK ve GSM operatörü tarafından bilinir. 
+
+IMEI ve IMSI numaraları public olarak ağda olmamalıdırlar. IMEI numarasına nadiren ihtiyaçları olan baz istasyonları rouuting yapabilmek için internal IP gibi IMSI numaralarına ihtiyaçları vardır. Fakat IMSI numarları özel olduğundan cihazınız TMSI numarası üreterek bu numarayı baz istasyonuna gönderir. Bir nevi telefonunuz kendi içinde NAT yapar. 
+
+ 
+
+2) IEEE 802.11 bir protocol ailesidir. OSI L1 ve L2 katmanlarını regüle eder. WI-FI sinyalleri de bu kategoride olduğu için WI-FI sinyallerinin nasıl iletileceği de IEEE tarafından kararlaştırılır. 
+
+IEEE 802.11’ e göre WI-FI kartlarının birçok modu bulunmaktadır. Bunlardan birisi monitor modudur. Ben monitor modunu kullanarak projemi gerçekleştirdim. 
+
+ 
+
+3) Hem WI-FI hem GSM sinyalleri radyo dalgalarıyla iletilir. WI-FI 2.4 veya 5 GHz bandında çalışırken GSM sinyalleri ülkeye, firmaya, 2G 3G 4G gibi teknolojilere de bağlı olarak 850, 900,1800,1900 gibi çeşitli bantlarda çalışırlar. 
+
+ 
+
+4) WI-FI sinyalleri her ne kadar aderse yönelik gibi gözükse de doğaları gereği her yöne yayılabilirler. Bilgisayarımızın WI-FI kartları da gerekli firmware ve software’ leri kullanarak havadaki herhangi bir paketi yakalayabilir. Cihazımızı monitor mode’ a alarak bunu sağlayabiliriz. Benim projemdeki amaç sadece farklı MAC adreslerine sahip cihazları tesğit etmek olduğu için nen sadece istasyonları pasif olarak dinledim. 
+
+ 
+
+5) Bu cihaz bir RTL-SDR' dır. “RTL” realtek’ in kısaltmasıdır. “SDR” ise software defined radio demektir. Yani bu cihaz realtek marka çipleri kullanarak donanımsal tabanlı değil OSMOCOM kütüphanelerini kullanarak sinyalleri birbirinden ayrıştırır. Normalde bu kadar geniş bir spektrum birbirinden ayıran cihazlar devasa boyutlardadır. 
+
+ 
+
+6) RTL-SDR kullanarak GSM sinyallerini yakalamayı hedefledim. Türkiye için yasal bant 900 MHz bandıdır. GSM operatörleri 900 bandında hizmet verebilir. Fakat 900 bandı genellikle 900-950 MHz aralığını kapsamaktadır. O yüzden önce civardaki baz istasyonlarının dinleme frekanslarını bulmalıyız. 
+
+ 
+
+7) Bu noktada şöyle bir sorunla karşılaştım. Türk Telekom diğer operatörlerden farklı olarak 1.8GHz bandında çalışmaktadır. Ne tesadüfdir ki generic rtl-sdr cihazlar 1.8 GHz de çalışmayı durdurmaktadır. Commercial olup satın alınabilir (affordable) düzeydeki rtl-sdr' lar genelde max 1.7 GHz’ e kadar olan radyo sinyallerini ayrıştırabilmektedir. Piyasa da 300  küsür dolara satılan HackRF gibi cihazlar 4, 5 GHz’ e kadar çıkabilmektedir. Yani Türk Telekom sinyallerini merakli gözlerden uzak tutabilmek için böyle bir yöntem geliştirmiştir. 
+
+ 
+
+8) Hem WI-FI hem GSM sinyallerini Wireshark’ ın terminal versiyonu olan tshark kullanarak yakaladım. Wireshark basitce internet kartınıza gelen verilerin bir kopyasını alıp inceler. 
+
+ 
+
+9) Projemin ilk modeli bu şekildedir. 
+
+ 
+
+10) Raspberry pi’ ların güçleri yetmedi. 2. model 
+
+ 
+
+11) 3. model 
+
+ 
+
+Broker -> mactoip.sh -> iplist -> broker2.py 
+
+Kali -> publisher.sh -> 80211 -> imsi 
